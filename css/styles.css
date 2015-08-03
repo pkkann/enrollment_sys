@@ -1,0 +1,30 @@
+body {
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+.login_internal {
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 400px;
+    height: 260px;
+    margin: auto;
+}
+
+.linkButton {
+	cursor: pointer;
+	cursor: hand;
+}
+
+.custom_alert {
+	position: absolute;
+    top: 80px;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    width: 400px;
+    margin: auto;
+}
