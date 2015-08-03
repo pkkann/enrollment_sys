@@ -132,6 +132,7 @@ function show_resident_details($id) {
       		$text .= '<div class="modal-footer">';
       			$text .= '<button type="button" class="btn btn-danger pull-left" onclick="xajax_delete_resident('.$row['id'].')">Slet</button>';
       			$text .= '<button type="button" class="btn btn-warning pull-left" onclick="xajax_show_edit_resident('.$row['id'].')">Rediger</button>';
+      			$text .= '<button type="button" class="btn btn-info pull-left">Indskriv</button>';
         		$text .= '<button type="button" class="btn btn-default" data-dismiss="modal">Luk</button>';
       		$text .= '</div>';
     	$text .= '</div><!-- /.modal-content -->';
