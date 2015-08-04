@@ -46,6 +46,9 @@
 		<link rel="stylesheet" type="text/css" href="css/sweet-alert/sweet-alert.css">
 		<script type="text/javascript" src="libraries/js/sweet-alert/sweet-alert.js"></script>
 
+		<!-- Bootstrap-waitingfor -->
+		<script type="text/javascript" src="libraries/js/Bootstrap-waitingfor/Bootstrap-waitingfor.js"></script>
+
 		<!-- Fontawesome -->
 		<link rel="stylesheet" type="text/css" href="css/fontawesome/font-awesome.css">
 		
