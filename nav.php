@@ -1,8 +1,10 @@
 <?php
 
-function load_nav($changePage) {
+function load_nav($changePage = 0) {
 	$objResponse = new xajaxResponse();
-	$_SESSION['curPage'] = $changePage;
+	if($changePage != 0) {
+		$_SESSION['curPage'] = $changePage;
+	}
 	$text .= gen_nav();
 	$objResponse->assign("top_wrapper", "innerHTML", $text);
 	return $objResponse;
@@ -39,6 +41,12 @@ function gen_nav() {
 					$text .= '<li class="'.$g.'"><a class="linkButton" onclick="xajax_load_guests()">Gæster</a></li>';
 				$text .= '</ul>';
 				$text .= '<ul class="nav navbar-nav navbar-right">';
+					if($_SESSION['shift']['id'] == 0) {
+						$text .= '<li><a class="linkButton" onclick="xajax_show_new_shift()">Ny vagt</a></li>';
+					} else {
+						$text .= '<li><a class="linkButton" onclick="xajax_show_close_shift()">Afslut vagt</a></li>';
+					}
+					
 					$text .= '<li><a class="linkButton" onclick="xajax_logout()">Log af</a></li>';
 				$text .= '</ul>';
 			$text .= '</div>';

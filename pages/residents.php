@@ -57,10 +57,10 @@ function gen_search($string) {
 
 	$text .= '<thead>';
 		$text .= '<tr>';
-			$text .= '<th>Navn</th>';
-			$text .= '<th>Høne</th>';
-			$text .= '<th>Reserve</th>';
-			$text .= '<th>1-1</th>';
+			$text .= '<th width="70%">Navn</th>';
+			$text .= '<th width="10%">Høne</th>';
+			$text .= '<th width="10%">Reserve</th>';
+			$text .= '<th width="10%">1-1</th>';
 		$text .= '</tr>';
 	$text .= '</thead>';
 	$text .= '<tbody>';
@@ -132,7 +132,6 @@ function show_resident_details($id) {
       		$text .= '<div class="modal-footer">';
       			$text .= '<button type="button" class="btn btn-danger pull-left" onclick="xajax_delete_resident('.$row['id'].')">Slet</button>';
       			$text .= '<button type="button" class="btn btn-warning pull-left" onclick="xajax_show_edit_resident('.$row['id'].')">Rediger</button>';
-      			$text .= '<button type="button" class="btn btn-info pull-left">Indskriv</button>';
         		$text .= '<button type="button" class="btn btn-default" data-dismiss="modal">Luk</button>';
       		$text .= '</div>';
     	$text .= '</div><!-- /.modal-content -->';

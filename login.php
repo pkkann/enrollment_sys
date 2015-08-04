@@ -55,6 +55,7 @@ function login($user, $pass) {
 		}
 		
 		$objResponse->call('xajax_load_main');
+		$objResponse->call('xajax_do_reload_shift');
 	} else {
 		$objResponse->call('xajax_show_alert', 'danger', 'Ups!', 'Forkert brugernavn eller adgangskode');
 	}

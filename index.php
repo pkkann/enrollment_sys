@@ -5,6 +5,7 @@
 	require_once "main.php";
 	require_once "login.php";
 	require_once "alert.php";
+	require_once "shift.php";
 
 	require_once "pages/residents.php";
 	require_once "pages/guests.php";
@@ -60,6 +61,7 @@
 		<div id="site_wrapper">
 			<?php
 			if(isset($_SESSION['user'])) {
+				reload_shift();
 				echo gen_main();
 			} else {
 				echo gen_login();
