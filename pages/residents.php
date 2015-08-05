@@ -242,7 +242,8 @@ function show_new_resident() {
       												document.getElementById(\'inputBirthMonth\').value,
       												document.getElementById(\'inputBirthYear\').value
       												)" class="btn btn-success pull-left">Opret</button>';
-				$text .= '<button type="button" onclick="xajax_create_resident(
+				if($_SESSION['shift']['id'] != 0) {
+					$text .= '<button type="button" onclick="xajax_create_resident(
       												document.getElementById(\'inputName\').value,
       												document.getElementById(\'inputAddrBlok\').value,
       												document.getElementById(\'inputAddrNr\').value,
@@ -254,6 +255,7 @@ function show_new_resident() {
       												document.getElementById(\'inputBirthYear\').value,
       												true
       												)" class="btn btn-success pull-left">Opret og indskriv</button>';
+				}
         		$text .= '<button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>';
       		$text .= '</div>';
     	$text .= '</div><!-- /.modal-content -->';
