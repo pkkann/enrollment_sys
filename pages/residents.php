@@ -389,15 +389,21 @@ function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve 
 		$sql = "INSERT INTO residents (name, addr_blok, addr_nr, birthday, hoene, reserve, oneone, creator, createdate) VALUES('".$name."', ".$blok.", ".$nr.", '".$birthday."', ".$hoene.", ".$reserve.", ".$oneone.", ".$creator.", NOW())";
 		$stmt = $dba->query($sql);
 
-		$objResponse->script('$(\'#modal\').modal(\'hide\');');
-		$objResponse->script('swal("Yay!", "Beboeren blev oprettet", "success")');
-		$objResponse->call('xajax_load_residents');
-		if($enroll) {
-			$sql = "SELECT max(id) as id FROM residents";
-			$stmt = $dba->query($sql);
-			$row = $stmt->fetch(PDO::FETCH_ASSOC);
-			$objResponse->call('xajax_show_enroll_resident', $row['id'], true);
+		if($stmt) {
+			$objResponse->script('$(\'#modal\').modal(\'hide\');');
+			$objResponse->script('swal("Yay!", "Beboeren blev oprettet", "success")');
+			$objResponse->call('xajax_load_residents');
+			if($enroll) {
+				$sql = "SELECT max(id) as id FROM residents";
+				$stmt = $dba->query($sql);
+				$row = $stmt->fetch(PDO::FETCH_ASSOC);
+				$objResponse->call('xajax_show_enroll_resident', $row['id'], true);
+			}
+		} else {
+			$objResponse->script('swal("Hov!", "Der skete en fejl, og beboeren blev ikke oprettet :(", "error")');
 		}
+
+		
 	}
 
 	return $objResponse;
@@ -448,9 +454,15 @@ function save_resident($id = "", $name = "", $blok = "", $nr = "", $hoene = 0, $
 	$sql = "UPDATE residents SET name='".$name."', addr_blok=".$blok.", addr_nr=".$nr.", hoene=".$hoene.", reserve=".$reserve.", oneone=".$oneone.", birthday='".$birthday."' WHERE id=" . $id;
 	$stmt = $dba->query($sql);
 
-	$objResponse->script('$(\'#modal\').modal(\'hide\');');
-	$objResponse->script('swal("Yay!", "Beboeren blev gemt", "success")');
-	$objResponse->call('xajax_load_residents');
+	if($stmt) {
+		$objResponse->script('$(\'#modal\').modal(\'hide\');');
+		$objResponse->script('swal("Yay!", "Beboeren blev gemt", "success")');
+		$objResponse->call('xajax_load_residents');
+	} else {
+		$objResponse->script('swal("Hov!", "Der skete en fejl. Beboeren blev ikke gemt :(", "error")');
+	}
+
+	
 
 	return $objResponse;
 }

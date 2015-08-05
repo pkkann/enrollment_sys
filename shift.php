@@ -49,7 +49,13 @@ function create_shift() {
 	$sql = "CALL shift_start(".$_SESSION['user']['id'].")";
 	$stmt = $dba->query($sql);
 
-	$objResponse->script('swal("Yay!", "Vagten blev oprettet!", "success")');
+	if($stmt) {
+		$objResponse->script('swal("Yay!", "Vagten blev oprettet!", "success")');
+	} else {
+		$objResponse->script('swal("Hov!", "Der skete en fejl. Vagten blev ikke oprettet :(", "error")');
+	}
+
+	
 	$objResponse->call('xajax_do_reload_shift');
 	return $objResponse;
 }
@@ -61,7 +67,12 @@ function close_shift() {
 		$sql = "CALL shift_close(".$_SESSION['shift']['id'].", ".$_SESSION['user']['id'].")";
 		global $dba;
 		$stmt = $dba->query($sql);
-		$objResponse->script('swal("Yay!", "Vagten blev afsluttet!", "success")');
+		if($stmt) {
+			$objResponse->script('swal("Yay!", "Vagten blev afsluttet!", "success")');
+		} else {
+			$objResponse->script('swal("Hov!", "Der skete en fejl. Vagten blev ikke afsluttet :(", "error")');
+		}
+		
 		$objResponse->call('xajax_do_reload_shift');
 	} else {
 		$objResponse->script('swal("what?", "Der er ingen vagt started... fejl måske?", "error")');
