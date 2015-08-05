@@ -6,6 +6,7 @@
 	require_once "login.php";
 	require_once "alert.php";
 	require_once "shift.php";
+	require_once "enrollment.php";
 
 	require_once "pages/residents.php";
 	require_once "pages/guests.php";

@@ -76,6 +76,16 @@ function do_reload_shift() {
 	reload_shift();
 	$objResponse->call('xajax_load_nav');
 	$objResponse->call('xajax_load_footer');
+	
+	switch ($_SESSION['curPage']) {
+		case '1':
+			$objResponse->call('xajax_load_residents()');
+			break;
+		case '2':
+			$objResponse->call('xajax_load_guests()');
+			break;
+	}
+
 
 	return $objResponse;
 }

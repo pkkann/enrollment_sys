@@ -9,7 +9,6 @@ function load_residents() {
 }
 
 function gen_residents() {
-	
 	$text = "";
 	$text .= '<div class="container-fluid">';
 		$text .= '<div class="panel panel-default">';
@@ -65,7 +64,17 @@ function gen_search($string) {
 	$text .= '</thead>';
 	$text .= '<tbody>';
 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+		if($_SESSION['shift']['id'] != 0) {
+			$sql1 = "SELECT * FROM enrollments_residents_select WHERE residentid = " . $row['id'] . " AND shiftid = " . $_SESSION['shift']['id'];
+			$stmt1 = $dba->query($sql1);
+			if($stmt1->rowCount() > 0) {
+				$text .= '<tr class="linkButton success" onclick="xajax_show_resident_details('.$row['id'].')">';
+			} else {
+				$text .= '<tr class="linkButton" onclick="xajax_show_resident_details('.$row['id'].')">';
+			}
+		} else {
 			$text .= '<tr class="linkButton" onclick="xajax_show_resident_details('.$row['id'].')">';
+		}
 				$text .= '<td>'.$row['name'].'</td>';
 				$text .= '<td>'.$row['hoene'].'</td>';
 				$text .= '<td>'.$row['reserve'].'</td>';
@@ -132,6 +141,15 @@ function show_resident_details($id) {
       		$text .= '<div class="modal-footer">';
       			$text .= '<button type="button" class="btn btn-danger pull-left" onclick="xajax_delete_resident('.$row['id'].')">Slet</button>';
       			$text .= '<button type="button" class="btn btn-warning pull-left" onclick="xajax_show_edit_resident('.$row['id'].')">Rediger</button>';
+      			if($_SESSION['shift']['id'] != 0) {
+      				$sql1 = "SELECT * FROM enrollments_residents_select WHERE residentid = " . $id . " AND shiftid = " . $_SESSION['shift']['id'];
+      				$stmt1 = $dba->query($sql1);
+      				if($stmt1->rowCount() > 0) {
+      					$text .= '<button disabled type="button" title="Man kan desværre ikke udskrive folk endnu" class="btn btn-success pull-left">Indskrevet</button>';
+      				} else {
+      					$text .= '<button type="button" class="btn btn-primary pull-left" onclick="xajax_show_enroll_resident('.$id.')">Indskriv</button>';
+      				}
+	      		}
         		$text .= '<button type="button" class="btn btn-default" data-dismiss="modal">Luk</button>';
       		$text .= '</div>';
     	$text .= '</div><!-- /.modal-content -->';
@@ -224,6 +242,18 @@ function show_new_resident() {
       												document.getElementById(\'inputBirthMonth\').value,
       												document.getElementById(\'inputBirthYear\').value
       												)" class="btn btn-success pull-left">Opret</button>';
+				$text .= '<button type="button" onclick="xajax_create_resident(
+      												document.getElementById(\'inputName\').value,
+      												document.getElementById(\'inputAddrBlok\').value,
+      												document.getElementById(\'inputAddrNr\').value,
+      												document.getElementById(\'selectHoene\').value,
+      												document.getElementById(\'selectReserve\').value,
+      												document.getElementById(\'selectOneone\').value,
+      												document.getElementById(\'inputBirthDate\').value,
+      												document.getElementById(\'inputBirthMonth\').value,
+      												document.getElementById(\'inputBirthYear\').value,
+      												true
+      												)" class="btn btn-success pull-left">Opret og indskriv</button>';
         		$text .= '<button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>';
       		$text .= '</div>';
     	$text .= '</div><!-- /.modal-content -->';
@@ -343,7 +373,7 @@ function show_edit_resident($id) {
 	return $objResponse;	
 }
 
-function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve = 0, $oneone = 0, $birthDate = "", $birthMonth = "", $birthYear = "") {
+function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve = 0, $oneone = 0, $birthDate = "", $birthMonth = "", $birthYear = "", $enroll = false) {
 	$objResponse = new xajaxResponse();
 
 	if(empty($name) || empty($blok) || empty($nr) || empty($birthDate) || empty($birthMonth) || empty($birthYear)) {
@@ -360,6 +390,12 @@ function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve 
 		$objResponse->script('$(\'#modal\').modal(\'hide\');');
 		$objResponse->script('swal("Yay!", "Beboeren blev oprettet", "success")');
 		$objResponse->call('xajax_load_residents');
+		if($enroll) {
+			$sql = "SELECT max(id) as id FROM residents";
+			$stmt = $dba->query($sql);
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			$objResponse->call('xajax_show_enroll_resident', $row['id'], true);
+		}
 	}
 
 	return $objResponse;
@@ -387,8 +423,13 @@ function delete_resident($id, $ask = 1) {
 		$sql = "DELETE FROM residents WHERE id = " . $id;
 		global $dba;
 		$stmt = $dba->query($sql);
-		$objResponse->script('$(\'#modal\').modal(\'hide\');');
-		$objResponse->script('swal("Yay!", "Beboeren blev Slettet", "success")');
+		if(!$stmt) {
+			$objResponse->script('swal("Hov!", "Der skete en fejl :( beboeren blev ikke slettet. Kontakt en administrator", "error")');
+		} else {
+			$objResponse->script('$(\'#modal\').modal(\'hide\');');
+			$objResponse->script('swal("Yay!", "Beboeren blev Slettet", "success")');
+		}
+		
 		$objResponse->call('xajax_load_residents');
 	}
 
@@ -406,7 +447,7 @@ function save_resident($id = "", $name = "", $blok = "", $nr = "", $hoene = 0, $
 	$stmt = $dba->query($sql);
 
 	$objResponse->script('$(\'#modal\').modal(\'hide\');');
-	$objResponse->script('swal("Yay!", "Beboeren blev Gemt", "success")');
+	$objResponse->script('swal("Yay!", "Beboeren blev gemt", "success")');
 	$objResponse->call('xajax_load_residents');
 
 	return $objResponse;

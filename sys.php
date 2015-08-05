@@ -46,6 +46,7 @@ function registerXajaxFunctions() {
 	$xajax->register(XAJAX_FUNCTION, 'create_shift');
 	$xajax->register(XAJAX_FUNCTION, 'close_shift');
 	$xajax->register(XAJAX_FUNCTION, 'do_reload_shift');
+	$xajax->register(XAJAX_FUNCTION, 'show_enroll_resident');
 }
 	
 ?>
