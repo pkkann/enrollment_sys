@@ -182,10 +182,22 @@ function show_new_resident() {
 					    $text .= '<div class="form-group">';
 					    	$text .= '<label class="col-lg-2 control-label">Adresse</label>';
 					    	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputAddrBlok" placeholder="Blok" class="form-control" maxlength="2" type="text" onkeypress="return isNumberKey(event)">';
+					        	$text .= '<input id="inputAddrBlok" placeholder="Blok" class="form-control numbersOnly" maxlength="2" type="text">';
 					      	$text .= '</div>';
 					      	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputAddrNr" placeholder="Nr" class="form-control" maxlength="3" type="text" onkeypress="return isNumberKey(event)">';
+					        	$text .= '<input id="inputAddrNr" placeholder="Nr" class="form-control numbersOnly" maxlength="3" type="text">';
+					      	$text .= '</div>';
+					    $text .= '</div>';
+					    $text .= '<div class="form-group">';
+					    	$text .= '<label class="col-lg-2 control-label">Fødselsdag</label>';
+					    	$text .= '<div class="col-lg-2">';
+					        	$text .= '<input id="inputBirthDate" class="form-control numbersOnly" maxlength="2" placeholder="dd" type="text">';
+					      	$text .= '</div>';
+					      	$text .= '<div class="col-lg-2">';
+					        	$text .= '<input id="inputBirthMonth" class="form-control numbersOnly" maxlength="2" placeholder="mm" type="text">';
+					      	$text .= '</div>';
+					      	$text .= '<div class="col-lg-2">';
+					        	$text .= '<input id="inputBirthYear" class="form-control numbersOnly" maxlength="4" placeholder="yyyy" type="text">';
 					      	$text .= '</div>';
 					    $text .= '</div>';
 					    $text .= '<div class="form-group">';
@@ -213,18 +225,6 @@ function show_new_resident() {
 					          		$text .= '<option value="0">Nej</option>';
 					          		$text .= '<option value="1">Ja</option>';
 					        	$text .= '</select>';
-					      	$text .= '</div>';
-					    $text .= '</div>';
-					    $text .= '<div class="form-group">';
-					    	$text .= '<label class="col-lg-2 control-label">Fødselsdag</label>';
-					    	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputBirthDate" class="form-control" maxlength="2" placeholder="dd" type="text" onkeypress="return isNumberKey(event)">';
-					      	$text .= '</div>';
-					      	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputBirthMonth" class="form-control" maxlength="2" placeholder="mm" type="text" onkeypress="return isNumberKey(event)">';
-					      	$text .= '</div>';
-					      	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputBirthYear" class="form-control" maxlength="4" placeholder="yyyy" type="text" onkeypress="return isNumberKey(event)">';
 					      	$text .= '</div>';
 					    $text .= '</div>';
         			$text .= '</fieldset>';
@@ -262,6 +262,7 @@ function show_new_resident() {
 	$text .= '</div><!-- /.modal-dialog -->';
 
 	$objResponse->assign("modal", "innerHTML", $text);
+	$objResponse->script("setupInputRestricts();");
 	$objResponse->script("$('#modal').modal('show');");
 	return $objResponse;
 }
@@ -304,10 +305,22 @@ function show_edit_resident($id) {
 					    $text .= '<div class="form-group">';
 					    	$text .= '<label class="col-lg-2 control-label">Adresse</label>';
 					    	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputAddrBlok" value="'.$row['blok'].'" placeholder="Blok" class="form-control" maxlength="2" type="text" onkeypress="return isNumberKey(event)">';
+					        	$text .= '<input id="inputAddrBlok" value="'.$row['blok'].'" placeholder="Blok" class="form-control numbersOnly" maxlength="2" type="text">';
 					      	$text .= '</div>';
 					      	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputAddrNr" value="'.$row['nr'].'" placeholder="Nr" class="form-control" maxlength="3" type="text" onkeypress="return isNumberKey(event)">';
+					        	$text .= '<input id="inputAddrNr" value="'.$row['nr'].'" placeholder="Nr" class="form-control numbersOnly" maxlength="3" type="text">';
+					      	$text .= '</div>';
+					    $text .= '</div>';
+					    $text .= '<div class="form-group">';
+					    	$text .= '<label class="col-lg-2 control-label">Fødselsdag</label>';
+					    	$text .= '<div class="col-lg-2">';
+					        	$text .= '<input id="inputBirthDate" value="'.$row['birthdate'].'" class="form-control numbersOnly" maxlength="2" placeholder="dd" type="text">';
+					      	$text .= '</div>';
+					      	$text .= '<div class="col-lg-2">';
+					        	$text .= '<input id="inputBirthMonth" value="'.$row['birthmonth'].'" class="form-control numbersOnly" maxlength="2" placeholder="mm" type="text">';
+					      	$text .= '</div>';
+					      	$text .= '<div class="col-lg-2">';
+					        	$text .= '<input id="inputBirthYear" value="'.$row['birthyear'].'" class="form-control numbersOnly" maxlength="4" placeholder="yyyy" type="text">';
 					      	$text .= '</div>';
 					    $text .= '</div>';
 					    $text .= '<div class="form-group">';
@@ -337,18 +350,6 @@ function show_edit_resident($id) {
 					        	$text .= '</select>';
 					      	$text .= '</div>';
 					    $text .= '</div>';
-					    $text .= '<div class="form-group">';
-					    	$text .= '<label class="col-lg-2 control-label">Fødselsdag</label>';
-					    	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputBirthDate" value="'.$row['birthdate'].'" class="form-control" maxlength="2" placeholder="dd" type="text" onkeypress="return isNumberKey(event)">';
-					      	$text .= '</div>';
-					      	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputBirthMonth" value="'.$row['birthmonth'].'" class="form-control" maxlength="2" placeholder="mm" type="text" onkeypress="return isNumberKey(event)">';
-					      	$text .= '</div>';
-					      	$text .= '<div class="col-lg-2">';
-					        	$text .= '<input id="inputBirthYear" value="'.$row['birthyear'].'" class="form-control" maxlength="4" placeholder="yyyy" type="text" onkeypress="return isNumberKey(event)">';
-					      	$text .= '</div>';
-					    $text .= '</div>';
         			$text .= '</fieldset>';
         		$text .= '</form>';
       		$text .= '</div>';
@@ -371,6 +372,7 @@ function show_edit_resident($id) {
 	$text .= '</div><!-- /.modal-dialog -->';
 
 	$objResponse->assign("modal", "innerHTML", $text);
+	$objResponse->script("setupInputRestricts();");
 	$objResponse->script("$('#modal').modal('show');");
 	return $objResponse;	
 }
@@ -382,11 +384,11 @@ function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve 
 		$objResponse->script('swal("Ups!", "Du har vidst ikke udfyldt det hele...", "error")');
 	} else {
 		$birthday = "";
-		$birthday .= (string)$birthYear . '-' . (string)$birthMonth . '-' . (string)$birthDate;
+		$birthday .= ltrim((string)$birthYear, '0') . '-' . ltrim((string)$birthMonth, '0') . '-' . ltrim((string)$birthDate, '0');
 		$creator = $_SESSION['user']['id'];
 
 		global $dba;
-		$sql = "INSERT INTO residents (name, addr_blok, addr_nr, birthday, hoene, reserve, oneone, creator, createdate) VALUES('".$name."', ".$blok.", ".$nr.", '".$birthday."', ".$hoene.", ".$reserve.", ".$oneone.", ".$creator.", NOW())";
+		$sql = "INSERT INTO residents (name, addr_blok, addr_nr, birthday, hoene, reserve, oneone, creator, createdate) VALUES('".$name."', ".ltrim($blok, '0').", ".ltrim($nr, '0').", '".$birthday."', ".$hoene.", ".$reserve.", ".$oneone.", ".$creator.", NOW())";
 		$stmt = $dba->query($sql);
 
 		if($stmt) {

@@ -47,8 +47,8 @@
 		<link rel="stylesheet" type="text/css" href="css/sweet-alert/sweet-alert.css">
 		<script type="text/javascript" src="libraries/js/sweet-alert/sweet-alert.js"></script>
 
-		<!-- Bootstrap-waitingfor -->
-		<script type="text/javascript" src="libraries/js/Bootstrap-waitingfor/Bootstrap-waitingfor.js"></script>
+		<!-- Autotab -->
+		<script type="text/javascript" src="libraries/js/autotab/jquery.autotab.js"></script>
 
 		<!-- Fontawesome -->
 		<link rel="stylesheet" type="text/css" href="css/fontawesome/font-awesome.css">
@@ -78,6 +78,9 @@
 			    if (charCode > 31 && (charCode < 48 || charCode > 57))
 			        return false;
 			    return true;
+			}
+			function setupInputRestricts() {
+				$('.numbersOnly').autotab('number');
 			}
 		</script>
 	</body>
