@@ -25,6 +25,7 @@ function initDB() {
 
 function registerXajaxFunctions() {
 	global $xajax;
+	//Site
 	$xajax->register(XAJAX_FUNCTION, 'load_main');
 	$xajax->register(XAJAX_FUNCTION, 'load_nav');
 	$xajax->register(XAJAX_FUNCTION, 'load_footer');
@@ -32,21 +33,34 @@ function registerXajaxFunctions() {
 	$xajax->register(XAJAX_FUNCTION, 'login');
 	$xajax->register(XAJAX_FUNCTION, 'logout');
 	$xajax->register(XAJAX_FUNCTION, 'show_alert');
-	$xajax->register(XAJAX_FUNCTION, 'load_residents');
-	$xajax->register(XAJAX_FUNCTION, 'load_guests');
-	$xajax->register(XAJAX_FUNCTION, 'show_resident_details');
-	$xajax->register(XAJAX_FUNCTION, 'show_new_resident');
-	$xajax->register(XAJAX_FUNCTION, 'create_resident');
-	$xajax->register(XAJAX_FUNCTION, 'delete_resident');
-	$xajax->register(XAJAX_FUNCTION, 'show_edit_resident');
-	$xajax->register(XAJAX_FUNCTION, 'save_resident');
-	$xajax->register(XAJAX_FUNCTION, 'search');
+	
+	//Shift
 	$xajax->register(XAJAX_FUNCTION, 'show_new_shift');
 	$xajax->register(XAJAX_FUNCTION, 'show_close_shift');
 	$xajax->register(XAJAX_FUNCTION, 'create_shift');
 	$xajax->register(XAJAX_FUNCTION, 'close_shift');
 	$xajax->register(XAJAX_FUNCTION, 'do_reload_shift');
+	
+	//Resident
 	$xajax->register(XAJAX_FUNCTION, 'show_enroll_resident');
+	$xajax->register(XAJAX_FUNCTION, 'search_resident');
+	$xajax->register(XAJAX_FUNCTION, 'show_edit_resident');
+	$xajax->register(XAJAX_FUNCTION, 'save_resident');
+	$xajax->register(XAJAX_FUNCTION, 'create_resident');
+	$xajax->register(XAJAX_FUNCTION, 'delete_resident');
+	$xajax->register(XAJAX_FUNCTION, 'show_resident_details');
+	$xajax->register(XAJAX_FUNCTION, 'show_new_resident');
+	$xajax->register(XAJAX_FUNCTION, 'load_residents');
+
+	//Guest
+	$xajax->register(XAJAX_FUNCTION, 'load_guests');
+	$xajax->register(XAJAX_FUNCTION, 'search_guest');
+	$xajax->register(XAJAX_FUNCTION, 'show_guest_details');
+	$xajax->register(XAJAX_FUNCTION, 'show_new_guest');
+	$xajax->register(XAJAX_FUNCTION, 'create_guest');
+	$xajax->register(XAJAX_FUNCTION, 'delete_guest');
+	$xajax->register(XAJAX_FUNCTION, 'save_guest');
+	$xajax->register(XAJAX_FUNCTION, 'show_edit_guest');
 }
 	
 ?>

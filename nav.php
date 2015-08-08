@@ -38,7 +38,7 @@ function gen_nav() {
 			$text .= '<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">';
 				$text .= '<ul class="nav navbar-nav">';
 					$text .= '<li class="'.$r.'"><a class="linkButton" onclick="xajax_load_residents()">Beboere</a></li>';
-					//$text .= '<li class="'.$g.'"><a class="linkButton" onclick="xajax_load_guests()">Gæster</a></li>';
+					$text .= '<li class="'.$g.'"><a class="linkButton" onclick="xajax_load_guests()">Gæster</a></li>';
 				$text .= '</ul>';
 				$text .= '<ul class="nav navbar-nav navbar-right">';
 					if($_SESSION['shift']['id'] == 0) {

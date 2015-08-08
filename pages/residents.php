@@ -17,13 +17,13 @@ function gen_residents() {
 					$text .= '<span class="input-group-btn">';
 		        		$text .= '<button class="btn btn-primary" type="button" onclick="xajax_show_new_resident()"><i class="fa fa-plus-circle"></i> Ny</button>';
 		      		$text .= '</span>';
-		      		$text .= '<input type="text" id="inputSearch" class="form-control" oninput="xajax_search(document.getElementById(\'inputSearch\').value)" placeholder="F.eks. navn, adresse[blok-nr], fødselsdag[dd/mm/yyyy]">';
+		      		$text .= '<input type="text" id="inputSearch" class="form-control" oninput="xajax_search_resident(document.getElementById(\'inputSearch\').value)" placeholder="F.eks. navn, adresse[blok-nr], fødselsdag[dd/mm/yyyy]">';
 					$text .= '<span class="input-group-addon" id="basic-addon1"><i class="fa fa-search"></i></span>';
 				$text .= '</div>';
 			$text .= '</div>';
 			
 			$text .= '<table id="resident_table" class="table table-striped table-hover">';
-				$text .= gen_search('');
+				$text .= gen_resident_search('');
 			$text .= '</table>';
 
 		$text .= '</div>';
@@ -32,16 +32,16 @@ function gen_residents() {
 	return $text;
 }
 
-function search($string) {
+function search_resident($string) {
 	$objResponse = new xajaxResponse();
 
-	$text = gen_search($string);
+	$text = gen_resident_search($string);
 
 	$objResponse->assign("resident_table", "innerHTML", $text);
 	return $objResponse;
 }
 
-function gen_search($string) {
+function gen_resident_search($string) {
 	global $dba;
 	$sql = "SELECT * FROM residents_select WHERE name LIKE '%".$string."%'";
 	$stmt = $dba->query($sql);
@@ -128,11 +128,11 @@ function show_resident_details($id) {
         					$text .= '<td>'.$row['birthday'].'</td>';
         				$text .= '</tr>';
         				$text .= '<tr>';
-        					$text .= '<td><strong>Creator:</strong></td>';
+        					$text .= '<td><strong>Oprettet af:</strong></td>';
         					$text .= '<td>'.$row['creator'].'</td>';
         				$text .= '</tr>';
         				$text .= '<tr>';
-        					$text .= '<td><strong>Created:</strong></td>';
+        					$text .= '<td><strong>Oprettet:</strong></td>';
         					$text .= '<td>'.$row['createdate'].'</td>';
         				$text .= '</tr>';
         			$text .= '</table>';
