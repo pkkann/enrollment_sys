@@ -146,8 +146,10 @@ function show_resident_details($id) {
       				$stmt1 = $dba->query($sql1);
       				if($stmt1->rowCount() > 0) {
       					$text .= '<button disabled type="button" title="Man kan desværre ikke udskrive folk endnu" class="btn btn-success pull-left">Indskrevet</button>';
+      					$text .= '<button type="button" class="btn btn-warning pull-left">Gæster</button>';
       				} else {
       					$text .= '<button type="button" class="btn btn-primary pull-left" onclick="xajax_show_enroll_resident('.$id.')">Indskriv</button>';
+      					$text .= '<button disabled type="button" title="Indskriv for at administrere gæster" class="btn btn-warning pull-left">Gæster</button>';
       				}
 	      		}
         		$text .= '<button type="button" class="btn btn-default" data-dismiss="modal">Luk</button>';

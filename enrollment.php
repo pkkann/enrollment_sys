@@ -10,7 +10,8 @@ function show_enroll_resident($id, $justcreated = false) {
 	if(!$stmt) {
 		$objResponse->script('swal("Hov!", "Der skete sku en fejl.. Beboeren blev ikke indskrevet :( Kontakt en administrator", "error")');
 	} else {
-		$objResponse->script('$(\'#modal\').modal(\'hide\');');
+		$objResponse->call('xajax_show_resident_details', $id);
+		//$objResponse->script('$(\'#modal\').modal(\'hide\');');
 		if($justcreated) {
 			$objResponse->script('swal("Yay!", "Beboeren blev oprettet og indskrevet", "success")');
 		} else {
