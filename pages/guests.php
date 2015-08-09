@@ -58,7 +58,6 @@ function gen_guest_search($string) {
 	$text .= '<tbody>';
 		while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 		if($_SESSION['shift']['id'] != 0) {
-			/*
 			$sql1 = "SELECT * FROM enrollments_guests_select WHERE guestid = " . $row['id'] . " AND shiftid = " . $_SESSION['shift']['id'];
 			$stmt1 = $dba->query($sql1);
 			if($stmt1->rowCount() > 0) {
@@ -66,7 +65,6 @@ function gen_guest_search($string) {
 			} else {
 				$text .= '<tr class="linkButton" onclick="xajax_show_guest_details('.$row['id'].')">';
 			}
-			*/
 		} else {
 			$text .= '<tr class="linkButton" onclick="xajax_show_guest_details('.$row['id'].')">';
 		}
@@ -117,17 +115,6 @@ function show_guest_details($id) {
       		$text .= '<div class="modal-footer">';
       			$text .= '<button type="button" class="btn btn-danger pull-left" onclick="xajax_delete_guest('.$row['id'].')">Slet</button>';
       			$text .= '<button type="button" class="btn btn-warning pull-left" onclick="xajax_show_edit_guest('.$row['id'].')">Rediger</button>';
-      			if($_SESSION['shift']['id'] != 0) {
-      				/*
-      				$sql1 = "SELECT * FROM enrollments_residents_select WHERE residentid = " . $id . " AND shiftid = " . $_SESSION['shift']['id'];
-      				$stmt1 = $dba->query($sql1);
-      				if($stmt1->rowCount() > 0) {
-      					$text .= '<button disabled type="button" title="Man kan desværre ikke udskrive folk endnu" class="btn btn-success pull-left">Indskrevet</button>';
-      				} else {
-      					$text .= '<button type="button" class="btn btn-primary pull-left" onclick="xajax_show_enroll_resident('.$id.')">Indskriv</button>';
-      				}
-      				*/
-	      		}
         		$text .= '<button type="button" class="btn btn-default" data-dismiss="modal">Luk</button>';
       		$text .= '</div>';
     	$text .= '</div><!-- /.modal-content -->';
@@ -180,7 +167,7 @@ function show_new_guest() {
       												document.getElementById(\'inputBirthYear\').value
       												)" class="btn btn-success pull-left">Opret</button>';
 				if($_SESSION['shift']['id'] != 0) {
-					/*
+					
 					$text .= '<button type="button" onclick="xajax_create_guest(
       												document.getElementById(\'inputName\').value,
       												document.getElementById(\'inputBirthDate\').value,
@@ -188,7 +175,7 @@ function show_new_guest() {
       												document.getElementById(\'inputBirthYear\').value,
       												true
       												)" class="btn btn-success pull-left">Opret og indskriv</button>';
-      												*/
+      												
 				}
         		$text .= '<button type="button" class="btn btn-default" data-dismiss="modal">Annuller</button>';
       		$text .= '</div>';
