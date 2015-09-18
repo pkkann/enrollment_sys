@@ -6,7 +6,6 @@
 	require_once "login.php";
 	require_once "alert.php";
 	require_once "shift.php";
-	require_once "enrollment.php";
 
 	require_once "pages/residents.php";
 	require_once "pages/guests.php";
@@ -49,6 +48,11 @@
 
 		<!-- Autotab -->
 		<script type="text/javascript" src="libraries/js/autotab/jquery.autotab.js"></script>
+
+		<!-- Select -->
+		<script type="text/javascript" src="libraries/js/select/bootstrap-select.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/select/bootstrap-select.css">
+		<script type="text/javascript" src="libraries/js/select/i18n/defaults-da_DK.js"></script>
 
 		<!-- Fontawesome -->
 		<link rel="stylesheet" type="text/css" href="css/fontawesome/font-awesome.css">

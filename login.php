@@ -10,7 +10,7 @@ function load_login() {
 function gen_login() {
 	$text = '';
 	$text .= '<div id="login_wrapper">';
-		$text .= '<div id="login_internat" class="well login_internal">';
+		$text .= '<div id="login_internat" class="well login_internal animated bounceIn">';
 			$text .= '<h3>Login</h3>';
 			$text .= '<form class="form-horizontal">';
 				$text .= '<fieldset>';

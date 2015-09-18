@@ -53,6 +53,8 @@ function registerXajaxFunctions() {
 	$xajax->register(XAJAX_FUNCTION, 'load_residents');
 
 	//Guest
+	$xajax->register(XAJAX_FUNCTION, 'show_enroll_guest');
+	$xajax->register(XAJAX_FUNCTION, 'enroll_guest');
 	$xajax->register(XAJAX_FUNCTION, 'load_guests');
 	$xajax->register(XAJAX_FUNCTION, 'search_guest');
 	$xajax->register(XAJAX_FUNCTION, 'show_guest_details');
