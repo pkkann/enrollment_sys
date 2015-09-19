@@ -43,10 +43,10 @@ function search_guest($string) {
 
 function gen_guest_search($string) {
 	global $dba;
-	$sql = "SELECT * FROM guests_select WHERE name LIKE '%".$string."%'";
+	$sql = "SELECT * FROM guests_select WHERE deleted = 0 AND name LIKE '%".$string."%'";
 	$stmt = $dba->query($sql);
 	if($stmt->rowCount() < 1) {
-		$sql = "SELECT * FROM guests_select WHERE birthday LIKE '%".$string."%'";
+		$sql = "SELECT * FROM guests_select WHERE deleted = 0 AND birthday LIKE '%".$string."%'";
 		$stmt = $dba->query($sql);
 	}
 
@@ -246,7 +246,7 @@ function show_enroll_guest($id, $justcreated = false) {
 	$objResponse = new xajaxResponse();
 
 	global $dba;
-	$sql = "SELECT * FROM residents_select";
+	$sql = "SELECT * FROM residents_select WHERE deleted = 0";
 	$stmt = $dba->query($sql);
 
 	$text .= '<form class="form-horizontal" action="#" method="post" onsubmit="return false;" name="enrollGuestForm" id="enrollGuestForm">';
@@ -350,7 +350,7 @@ function create_guest($name = "", $birthDate = "", $birthMonth = "", $birthYear 
 
 			if($stmt) {
 				$objResponse->script('$(\'#modal\').modal(\'hide\');');
-				$objResponse->script('swal("Yay!", "Gæsten blev oprettet", "success")');
+				$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Gæsten blev oprettet');
 				$objResponse->call('xajax_load_guests');
 				if($enroll) {
 					$sql = "SELECT max(id) as id FROM guests";
@@ -382,20 +382,20 @@ function delete_guest($id, $ask = 1) {
 				confirmButtonClass: "btn-danger",
 				confirmButtonText: "Ja slet!",
 				cancelButtonText: "Nej",
-				closeOnConfirm: false
+				closeOnConfirm: true
 			},
 			function(){
 				xajax_delete_guest('.$id.', 0);
 			});');
 	} else {
-		$sql = "DELETE FROM guests WHERE id = " . $id;
+		$sql = "UPDATE guests SET deleted = 1 WHERE id = " . $id;
 		global $dba;
 		$stmt = $dba->query($sql);
 		if(!$stmt) {
 			$objResponse->script('swal("Hov!", "Der skete en fejl :( gæsten blev ikke slettet. Kontakt en administrator", "error")');
 		} else {
 			$objResponse->script('$(\'#modal\').modal(\'hide\');');
-			$objResponse->script('swal("Yay!", "Gæsten blev Slettet", "success")');
+			$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Gæsten blev slettet');
 		}
 		
 		$objResponse->call('xajax_load_guests');
@@ -420,7 +420,7 @@ function save_guest($id = "", $name = "", $birthDate = "", $birthMonth = "", $bi
 
 			if($stmt) {
 				$objResponse->script('$(\'#modal\').modal(\'hide\');');
-				$objResponse->script('swal("Yay!", "Gæsten blev gemt", "success")');
+				$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Gæsten blev gemt');
 				$objResponse->call('xajax_load_guests');
 			} else {
 				$objResponse->script('swal("Hov!", "Der skete en fejl. Gæsten blev ikke gemt :(", "error")');

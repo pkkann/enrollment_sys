@@ -33,6 +33,7 @@ function registerXajaxFunctions() {
 	$xajax->register(XAJAX_FUNCTION, 'login');
 	$xajax->register(XAJAX_FUNCTION, 'logout');
 	$xajax->register(XAJAX_FUNCTION, 'show_alert');
+	$xajax->register(XAJAX_FUNCTION, 'relogin');
 	
 	//Shift
 	$xajax->register(XAJAX_FUNCTION, 'show_new_shift');
@@ -63,6 +64,24 @@ function registerXajaxFunctions() {
 	$xajax->register(XAJAX_FUNCTION, 'delete_guest');
 	$xajax->register(XAJAX_FUNCTION, 'save_guest');
 	$xajax->register(XAJAX_FUNCTION, 'show_edit_guest');
+
+	//User
+	$xajax->register(XAJAX_FUNCTION, 'load_users');
+	$xajax->register(XAJAX_FUNCTION, 'search_user');
+	$xajax->register(XAJAX_FUNCTION, 'show_user_details');
+	$xajax->register(XAJAX_FUNCTION, 'show_new_user');
+	$xajax->register(XAJAX_FUNCTION, 'show_edit_user');
+	$xajax->register(XAJAX_FUNCTION, 'create_user');
+	$xajax->register(XAJAX_FUNCTION, 'delete_user');
+	$xajax->register(XAJAX_FUNCTION, 'save_user');
+	$xajax->register(XAJAX_FUNCTION, 'show_setPwd_user');
+
+	//Profile
+	$xajax->register(XAJAX_FUNCTION, 'load_profile');
+	$xajax->register(XAJAX_FUNCTION, 'show_profile');
+	$xajax->register(XAJAX_FUNCTION, 'save_profile');
+	$xajax->register(XAJAX_FUNCTION, 'show_setPwd_profile');
+	$xajax->register(XAJAX_FUNCTION, 'save_pwd');
 }
 	
 ?>

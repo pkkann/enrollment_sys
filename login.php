@@ -10,7 +10,7 @@ function load_login() {
 function gen_login() {
 	$text = '';
 	$text .= '<div id="login_wrapper">';
-		$text .= '<div id="login_internat" class="well login_internal animated bounceIn">';
+		$text .= '<div id="login_internat" class="well login_internal animated fadeInDownBig">';
 			$text .= '<h3>Login</h3>';
 			$text .= '<form class="form-horizontal">';
 				$text .= '<fieldset>';
@@ -39,6 +39,8 @@ function gen_login() {
 function login($user, $pass) {
 	$objResponse = new xajaxResponse();
 	$success = false;
+	//$user = mysql_real_escape_string($user);
+	//$pass = mysql_real_escape_string($pass);
 
 	global $dba;
 	$sql = "SELECT * FROM sysuser WHERE user = '".$user."' AND pass = '".$pass."'";
@@ -52,6 +54,7 @@ function login($user, $pass) {
 			$_SESSION['user']['id'] = $row['id'];
 			$_SESSION['user']['name'] = $row['name'];
 			$_SESSION['user']['username'] = $row['user'];
+			$_SESSION['user']['admin'] = $row['admin'];
 		}
 		
 		$objResponse->call('xajax_load_main');
@@ -60,6 +63,24 @@ function login($user, $pass) {
 		$objResponse->call('xajax_show_alert', 'danger', 'Ups!', 'Forkert brugernavn eller adgangskode');
 	}
 	
+	return $objResponse;
+}
+
+function relogin() {
+	$objResponse = new xajaxResponse();
+
+	global $dba;
+	$sql = "SELECT * FROM sysuser_select WHERE id = " . $_SESSION['user']['id'];
+	$stmt = $dba->query($sql);
+	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	$_SESSION['user']['id'] = $row['id'];
+	$_SESSION['user']['name'] = $row['name'];
+	$_SESSION['user']['username'] = $row['user'];
+	$_SESSION['user']['admin'] = $row['admin'];
+	
+	$objResponse->call('xajax_load_main');
+	$objResponse->call('xajax_do_reload_shift');
+
 	return $objResponse;
 }
 

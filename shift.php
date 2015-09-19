@@ -12,7 +12,7 @@ function show_new_shift() {
 				confirmButtonClass: "btn-info",
 				confirmButtonText: "Ja lav ny vagt",
 				cancelButtonText: "Nej",
-				closeOnConfirm: false
+				closeOnConfirm: true
 			},
 			function(){
 				xajax_create_shift();
@@ -33,7 +33,7 @@ function show_close_shift() {
 				confirmButtonClass: "btn-warning",
 				confirmButtonText: "Ja afslut vagten nu",
 				cancelButtonText: "Nej",
-				closeOnConfirm: false
+				closeOnConfirm: true
 			},
 			function(){
 				xajax_close_shift();
@@ -50,7 +50,7 @@ function create_shift() {
 	$stmt = $dba->query($sql);
 
 	if($stmt) {
-		$objResponse->script('swal("Yay!", "Vagten blev oprettet!", "success")');
+		$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Vagten blev startet');
 	} else {
 		$objResponse->script('swal("Hov!", "Der skete en fejl. Vagten blev ikke oprettet :(", "error")');
 	}
@@ -68,7 +68,7 @@ function close_shift() {
 		global $dba;
 		$stmt = $dba->query($sql);
 		if($stmt) {
-			$objResponse->script('swal("Yay!", "Vagten blev afsluttet!", "success")');
+			$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Vagten blev afsluttet');
 		} else {
 			$objResponse->script('swal("Hov!", "Der skete en fejl. Vagten blev ikke afsluttet :(", "error")');
 		}

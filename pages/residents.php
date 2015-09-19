@@ -43,13 +43,14 @@ function search_resident($string) {
 
 function gen_resident_search($string) {
 	global $dba;
-	$sql = "SELECT * FROM residents_select WHERE name LIKE '%".$string."%'";
+	$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND name LIKE '%".$string."%'";
 	$stmt = $dba->query($sql);
 	if($stmt->rowCount() < 1) {
-		$sql = "SELECT * FROM residents_select WHERE address LIKE '%".$string."%'";
+		//$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND address LIKE '%".$string."%'";
+		$sql = "SELECT * FROM residents_select u WHERE deleted = 0 AND LEVENSHTEIN_RATIO(u.address, '".$string."') > 30";
 		$stmt = $dba->query($sql);
 		if($stmt->rowCount() < 1) {
-			$sql = "SELECT * FROM residents_select WHERE birthday LIKE '%".$string."%'";
+			$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND birthday LIKE '%".$string."%'";
 			$stmt = $dba->query($sql);
 		}
 	}
@@ -423,7 +424,7 @@ function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve 
 			if($stmt) {
 				$objResponse->script('$(\'#modal\').modal(\'hide\');');
 				if(!$enroll) {
-					$objResponse->script('swal("Yay!", "Beboeren blev oprettet", "success")');
+					$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Beboeren blev oprettet');
 				}
 				$objResponse->call('xajax_load_residents');
 				if($enroll) {
@@ -457,20 +458,20 @@ function delete_resident($id, $ask = 1) {
 				confirmButtonClass: "btn-danger",
 				confirmButtonText: "Ja slet!",
 				cancelButtonText: "Nej",
-				closeOnConfirm: false
+				closeOnConfirm: true
 			},
 			function(){
 				xajax_delete_resident('.$id.', 0);
 			});');
 	} else {
-		$sql = "DELETE FROM residents WHERE id = " . $id;
+		$sql = "UPDATE residents SET deleted = 1 WHERE id = " . $id;
 		global $dba;
 		$stmt = $dba->query($sql);
 		if(!$stmt) {
 			$objResponse->script('swal("Hov!", "Der skete en fejl :( beboeren blev ikke slettet. Kontakt en administrator", "error")');
 		} else {
 			$objResponse->script('$(\'#modal\').modal(\'hide\');');
-			$objResponse->script('swal("Yay!", "Beboeren blev Slettet", "success")');
+			$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Beboeren blev slettet');
 		}
 		
 		$objResponse->call('xajax_load_residents');
@@ -495,7 +496,7 @@ function save_resident($id = "", $name = "", $blok = "", $nr = "", $hoene = 0, $
 
 			if($stmt) {
 				$objResponse->script('$(\'#modal\').modal(\'hide\');');
-				$objResponse->script('swal("Yay!", "Beboeren blev gemt", "success")');
+				$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Beboeren blev gemt');
 				$objResponse->call('xajax_load_residents');
 			} else {
 				$objResponse->script('swal("Hov!", "Der skete en fejl. Beboeren blev ikke gemt :(", "error")');

@@ -22,6 +22,17 @@ function gen_main() {
 			case '2':
 				$text .= gen_guests();
 				break;
+			case '3':
+				if($_SESSION['user']['admin']) {
+					$text .= gen_users();
+				} else {
+					$_SESSION['curPage'] = 1;
+					$text .= gen_main();
+				}
+				break;
+			case '4':
+				$text .= gen_profile();
+				break;
 		}
 	$text .= '</div>';
 

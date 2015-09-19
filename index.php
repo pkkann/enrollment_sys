@@ -9,6 +9,8 @@
 
 	require_once "pages/residents.php";
 	require_once "pages/guests.php";
+	require_once "pages/users.php";
+	require_once "pages/profile.php";
 	session_start();
 	
 	//Init sys
@@ -40,7 +42,7 @@
 		<link rel="stylesheet" type="text/css" href="css/animate/animate.css">
 
 		<!-- Bootstrap-notify -->
-		<script type="text/javascript" src="libraries/js/Bootstrap-notify/bootstrap-notify.js"></script>
+		<script type="text/javascript" src="libraries/js/bootstrap-notify/bootstrap-notify.js"></script>
 
 		<!-- Sweet-alert -->
 		<link rel="stylesheet" type="text/css" href="css/sweet-alert/sweet-alert.css">
