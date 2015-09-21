@@ -11,10 +11,12 @@ function gen_main() {
 	$text = '';
 
 	$text .= '<div id="top_wrapper">';
-		$text .= gen_nav();
+		$text .= '<nav id="top_nav" class="navbar navbar-inverse navbar-fixed-top animated fadeInDown">';
+			$text .= gen_nav();
+		$text .= '</nav>';
 	$text .= '</div>';
 
-	$text .= '<div id="middle_wrapper">';
+	$text .= '<div id="middle_wrapper" class="animated fadeIn">';
 		switch ($_SESSION['curPage']) {
 			case '1':
 				$text .= gen_residents();
@@ -37,7 +39,9 @@ function gen_main() {
 	$text .= '</div>';
 
 	$text .= '<div id="bottom_wrapper">';
-		$text .= gen_footer();
+		$text .= '<nav id="bottom_nav" class="navbar navbar-default navbar-fixed-bottom animated fadeInUp">';
+			$text .= gen_footer();
+		$text .= '</nav>';
 	$text .= '</div>';
 
 	return $text;

@@ -23,7 +23,7 @@ function show_profile() {
     	$text .= '<div class="modal-content">';
       		$text .= '<div class="modal-header">';
         		$text .= '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-        		$text .= '<h4 class="modal-title">Min profil</h4>';
+        		$text .= '<h4 class="modal-title"><i class="fa fa-user"></i> '.$_SESSION['user']['name'].'</h4>';
       		$text .= '</div>';
       		$text .= '<div class="modal-body">';
         		$text .= '<form class="form-horizontal">';
