@@ -82,6 +82,10 @@ function registerXajaxFunctions() {
 	$xajax->register(XAJAX_FUNCTION, 'save_profile');
 	$xajax->register(XAJAX_FUNCTION, 'show_setPwd_profile');
 	$xajax->register(XAJAX_FUNCTION, 'save_pwd');
+
+	//Shift
+	$xajax->register(XAJAX_FUNCTION, 'load_shifts');
+	$xajax->register(XAJAX_FUNCTION, 'show_shift_details');
 }
 	
 ?>

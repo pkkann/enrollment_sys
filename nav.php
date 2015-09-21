@@ -14,6 +14,7 @@ function gen_nav() {
 	$r = "";
 	$g = "";
 	$b = "";
+	$s = "";
 	switch ($_SESSION['curPage']) {
 		case "1":
 			$r = "active";
@@ -23,6 +24,9 @@ function gen_nav() {
 			break;
 		case "3":
 			$b = "active";
+			break;
+		case "4":
+			$s = "active";
 			break;
 	}
 
@@ -45,6 +49,7 @@ function gen_nav() {
 				$text .= '<li class="'.$g.'"><a class="linkButton" onclick="xajax_load_guests()"><i class="fa fa-user-secret"></i> Gæster</a></li>';
 				if($_SESSION['user']['admin']) {
 					$text .= '<li class="'.$b.'"><a class="linkButton" onclick="xajax_load_users()"><i class="fa fa-users"></i> Brugere</a></li>';
+					$text .= '<li class="'.$s.'"><a class="linkButton" onclick="xajax_load_shifts()"><i class="fa fa-list"></i> Vagter</a></li>';
 				}
 			$text .= '</ul>';
 			$text .= '<ul class="nav navbar-nav navbar-right">';

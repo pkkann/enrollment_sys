@@ -45,23 +45,28 @@ function login($user, $pass) {
 	global $dba;
 	$sql = "SELECT * FROM sysuser WHERE user = '".$user."' AND pass = '".$pass."'";
 	$stmt = $dba->query($sql);
-	if($stmt->rowCount() > 0) {
-		$success = true;
-	}
-	
-	if($success) {
-		while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-			$_SESSION['user']['id'] = $row['id'];
-			$_SESSION['user']['name'] = $row['name'];
-			$_SESSION['user']['username'] = $row['user'];
-			$_SESSION['user']['admin'] = $row['admin'];
+	if($stmt) {
+		if($stmt->rowCount() > 0) {
+			$success = true;
 		}
 		
-		$objResponse->call('xajax_load_main');
-		$objResponse->call('xajax_do_reload_shift');
+		if($success) {
+			while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+				$_SESSION['user']['id'] = $row['id'];
+				$_SESSION['user']['name'] = $row['name'];
+				$_SESSION['user']['username'] = $row['user'];
+				$_SESSION['user']['admin'] = $row['admin'];
+			}
+			
+			$objResponse->call('xajax_load_main');
+			$objResponse->call('xajax_do_reload_shift');
+		} else {
+			$objResponse->call('xajax_show_alert', 'danger', 'Ups!', 'Forkert brugernavn eller adgangskode');
+		}
 	} else {
-		$objResponse->call('xajax_show_alert', 'danger', 'Ups!', 'Forkert brugernavn eller adgangskode');
+		$objResponse->script('swal("FEJL 1000", "Der skete sku en fejl.. Beboeren blev ikke indskrevet :( Kontakt en administrator", "error")');
 	}
+	
 	
 	return $objResponse;
 }

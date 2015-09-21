@@ -11,6 +11,7 @@
 	require_once "pages/guests.php";
 	require_once "pages/users.php";
 	require_once "pages/profile.php";
+	require_once "pages/shifts.php";
 	session_start();
 	
 	//Init sys

@@ -45,15 +45,27 @@ function gen_resident_search($string) {
 	global $dba;
 	$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND name LIKE '%".$string."%'";
 	$stmt = $dba->query($sql);
-	if($stmt->rowCount() < 1) {
-		//$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND address LIKE '%".$string."%'";
-		$sql = "SELECT * FROM residents_select u WHERE deleted = 0 AND LEVENSHTEIN_RATIO(u.address, '".$string."') > 30";
-		$stmt = $dba->query($sql);
+	if($stmt) {
 		if($stmt->rowCount() < 1) {
-			$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND birthday LIKE '%".$string."%'";
+			//$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND address LIKE '%".$string."%'";
+			$sql = "SELECT * FROM residents_select u WHERE deleted = 0 AND LEVENSHTEIN_RATIO(u.address, '".$string."') > 30";
 			$stmt = $dba->query($sql);
+			if($stmt) {
+				if($stmt->rowCount() < 1) {
+					$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND birthday LIKE '%".$string."%'";
+					$stmt = $dba->query($sql);
+					if(!$stmt) {
+						$objResponse->script('swal("FEJL 1001C", "Der skete sku en fejl.. kunne ikke hente beboere korrekt :( Kontakt en administrator", "error")');
+					}
+				}
+			} else {
+				$objResponse->script('swal("FEJL 1001B", "Der skete sku en fejl.. kunne ikke hente beboere korrekt :( Kontakt en administrator", "error")');
+			}
 		}
+	} else {
+		$objResponse->script('swal("FEJL 1001A", "Der skete sku en fejl.. kunne ikke hente beboere korrekt :( Kontakt en administrator", "error")');
 	}
+	
 
 	$text .= '<thead>';
 		$text .= '<tr>';
@@ -88,12 +100,14 @@ function gen_resident_search($string) {
 }
 
 function show_resident_details($id) {
+	$objResponse = new xajaxResponse();
 	global $dba;
 	$sql = "SELECT * FROM residents_select WHERE id = " . $id;
 	$stmt = $dba->query($sql);
+	if(!$stmt) {
+		$objResponse->script('swal("FEJL 1002", "Der skete sku en fejl.. kunne ikke hente beboere detaljer korrekt :( Kontakt en administrator", "error")');
+	}
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-	$objResponse = new xajaxResponse();
 
 	$text .= '<div class="modal-dialog">';
     	$text .= '<div class="modal-content">';
@@ -273,6 +287,9 @@ function show_edit_resident($id) {
 	global $dba;
 	$sql = "SELECT * FROM residents_edit WHERE id = " . $id;
 	$stmt = $dba->query($sql);
+	if(!$stmt) {
+		$objResponse->script('swal("FEJL 1003", "Der skete sku en fejl.. kunne ikke hente beboere til redigering korrekt :( Kontakt en administrator", "error")');
+	}
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 	$hoene = "";
@@ -386,7 +403,7 @@ function show_enroll_resident($id, $justcreated = false) {
 	$stmt = $dba->query($sql);
 
 	if(!$stmt) {
-		$objResponse->script('swal("Hov!", "Der skete sku en fejl.. Beboeren blev ikke indskrevet :( Kontakt en administrator", "error")');
+		$objResponse->script('swal("FEJL 1004", "Der skete sku en fejl.. kunne ikke indskrive beboeren korrekt :( Kontakt en administrator", "error")');
 	} else {
 		//$objResponse->call('xajax_show_resident_details', $id);
 		
@@ -434,7 +451,7 @@ function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve 
 					$objResponse->call('xajax_show_enroll_resident', $row['id'], true);
 				}
 			} else {
-				$objResponse->script('swal("Hov!", "Der skete en fejl, og beboeren blev ikke oprettet :(", "error")');
+				$objResponse->script('swal("FEJL 1005", "Der skete sku en fejl.. kunne ikke oprette beboeren korrekt :( Kontakt en administrator", "error")');
 			}
 		} else {
 			$objResponse->script('swal("Ups!", "Fødselsdagen er ikke gyldig", "error")');
@@ -468,7 +485,7 @@ function delete_resident($id, $ask = 1) {
 		global $dba;
 		$stmt = $dba->query($sql);
 		if(!$stmt) {
-			$objResponse->script('swal("Hov!", "Der skete en fejl :( beboeren blev ikke slettet. Kontakt en administrator", "error")');
+			$objResponse->script('swal("FEJL 1006", "Der skete sku en fejl.. kunne ikke slette beboeren korrekt :( Kontakt en administrator", "error")');
 		} else {
 			$objResponse->script('$(\'#modal\').modal(\'hide\');');
 			$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Beboeren blev slettet');
@@ -499,7 +516,7 @@ function save_resident($id = "", $name = "", $blok = "", $nr = "", $hoene = 0, $
 				$objResponse->call('xajax_show_alert', 'success', 'Yay!', 'Beboeren blev gemt');
 				$objResponse->call('xajax_load_residents');
 			} else {
-				$objResponse->script('swal("Hov!", "Der skete en fejl. Beboeren blev ikke gemt :(", "error")');
+				$objResponse->script('swal("FEJL 1007", "Der skete sku en fejl.. kunne ikke gemme beboeren korrekt :( Kontakt en administrator", "error")');
 			}
 		} else {
 			$objResponse->script('swal("Ups!", "Fødselsdagen er ikke gyldig", "error")');

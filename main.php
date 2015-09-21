@@ -33,7 +33,7 @@ function gen_main() {
 				}
 				break;
 			case '4':
-				$text .= gen_profile();
+				$text .= gen_shifts();
 				break;
 		}
 	$text .= '</div>';
