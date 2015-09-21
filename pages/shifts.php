@@ -54,6 +54,14 @@ function gen_shifts() {
 
 function show_shift_details($id) {
 	global $dba;
+
+	$sql = "SELECT id FROM enrollments_residents WHERE shift = " . $id;
+	$stmt = $dba->query($sql);
+	$residents = $stmt->rowCount();
+	$sql = "SELECT id FROM enrollments_guests WHERE shift = " . $id;
+	$stmt = $dba->query($sql);
+	$guests = $stmt->rowCount();
+
 	$sql = "SELECT * FROM shifts_select WHERE id = " . $id;
 	$stmt = $dba->query($sql);
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -95,11 +103,11 @@ function show_shift_details($id) {
         				$text .= '</tr>';
         				$text .= '<tr>';
         					$text .= '<td><strong>Indskrevede beboere:</strong></td>';
-        					$text .= '<td></td>';
+        					$text .= '<td>'.$residents.'</td>';
         				$text .= '</tr>';
         				$text .= '<tr>';
         					$text .= '<td><strong>Indskrevede gæster:</strong></td>';
-        					$text .= '<td></td>';
+        					$text .= '<td>'.$guests.'</td>';
         				$text .= '</tr>';
         			$text .= '</table>';
         		$text .= '</div>';

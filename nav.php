@@ -47,6 +47,7 @@ function gen_nav() {
 			$text .= '<ul class="nav navbar-nav">';
 				$text .= '<li class="'.$r.'"><a class="linkButton" onclick="xajax_load_residents()"><i class="fa fa-male"></i><i class="fa fa-female"></i> Beboere</a></li>';
 				$text .= '<li class="'.$g.'"><a class="linkButton" onclick="xajax_load_guests()"><i class="fa fa-user-secret"></i> Gæster</a></li>';
+				//$text .= '<li><a class="linkButton" onclick="xajax_do_test()">Test</a></li>';
 				if($_SESSION['user']['admin']) {
 					$text .= '<li class="'.$b.'"><a class="linkButton" onclick="xajax_load_users()"><i class="fa fa-users"></i> Brugere</a></li>';
 					$text .= '<li class="'.$s.'"><a class="linkButton" onclick="xajax_load_shifts()"><i class="fa fa-list"></i> Vagter</a></li>';

@@ -34,6 +34,7 @@ function registerXajaxFunctions() {
 	$xajax->register(XAJAX_FUNCTION, 'logout');
 	$xajax->register(XAJAX_FUNCTION, 'show_alert');
 	$xajax->register(XAJAX_FUNCTION, 'relogin');
+	$xajax->register(XAJAX_FUNCTION, 'do_test');
 	
 	//Shift
 	$xajax->register(XAJAX_FUNCTION, 'show_new_shift');

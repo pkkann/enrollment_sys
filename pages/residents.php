@@ -150,6 +150,19 @@ function show_resident_details($id) {
         					$text .= '<td><strong>Oprettet:</strong></td>';
         					$text .= '<td>'.$row['createdate'].'</td>';
         				$text .= '</tr>';
+        				if($_SESSION['shift']['id'] != 0) {
+        					$sql1 = "SELECT id FROM enrollments_guests WHERE resident = ".$row['id']." AND shift = ".$_SESSION['shift']['id'];
+							$stmt1 = $dba->query($sql1);
+							$guests = $stmt1->rowCount();
+        					$text .= '<tr>';
+	        					$text .= '<td><strong>Gæster:</strong></td>';
+	        					if($guests < 10) {
+	        						$text .= '<td>'.$guests.'</td>';
+	        					} else {
+	        						$text .= '<td>'.$guests.' <strong style="color: red">- Maks nået på denne vagt</strong></td>';
+	        					}
+	        				$text .= '</tr>';
+        				}
         			$text .= '</table>';
         		$text .= '</div>';
       		$text .= '</div>';

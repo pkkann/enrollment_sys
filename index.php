@@ -57,6 +57,9 @@
 		<link rel="stylesheet" type="text/css" href="css/select/bootstrap-select.css">
 		<script type="text/javascript" src="libraries/js/select/i18n/defaults-da_DK.js"></script>
 
+		<!-- ChartJS -->
+		<script type="text/javascript" src="libraries/js/chart/Chart.js"></script>
+
 		<!-- Fontawesome -->
 		<link rel="stylesheet" type="text/css" href="css/fontawesome/font-awesome.css">
 		
