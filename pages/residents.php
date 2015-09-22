@@ -203,9 +203,10 @@ function show_new_resident() {
         			$text .= '<fieldset>';
         				$text .= '<div class="form-group">';
 					    	$text .= '<label class="col-lg-2 control-label">Navn</label>';
-					    	$text .= '<div class="col-lg-10">';
+					    	$text .= '<div class="col-lg-8">';
 					        	$text .= '<input id="inputName" class="form-control" maxlength="45" type="text">';
 					      	$text .= '</div>';
+					      	$text .= '<label class="col-lg-2 control-label" style="color: gray">Påkrævet</label>';
 					    $text .= '</div>';
 					    $text .= '<div class="form-group">';
 					    	$text .= '<label class="col-lg-2 control-label">Adresse</label>';
@@ -227,6 +228,7 @@ function show_new_resident() {
 					      	$text .= '<div class="col-lg-2">';
 					        	$text .= '<input id="inputBirthYear" class="form-control numbersOnly" maxlength="4" placeholder="yyyy" type="text">';
 					      	$text .= '</div>';
+					      	$text .= '<label class="col-lg-2 control-label" style="color: gray">Påkrævet</label>';
 					    $text .= '</div>';
 					    $text .= '<div class="form-group">';
 					      	$text .= '<label for="select" class="col-lg-2 control-label">Høne</label>';
@@ -329,9 +331,10 @@ function show_edit_resident($id) {
         			$text .= '<fieldset>';
         				$text .= '<div class="form-group">';
 					    	$text .= '<label class="col-lg-2 control-label">Navn</label>';
-					    	$text .= '<div class="col-lg-10">';
+					    	$text .= '<div class="col-lg-8">';
 					        	$text .= '<input id="inputName" value="'.$row['name'].'" class="form-control" maxlength="45" type="text">';
 					      	$text .= '</div>';
+					      	$text .= '<label class="col-lg-2 control-label" style="color: gray">Påkrævet</label>';
 					    $text .= '</div>';
 					    $text .= '<div class="form-group">';
 					    	$text .= '<label class="col-lg-2 control-label">Adresse</label>';
@@ -353,6 +356,7 @@ function show_edit_resident($id) {
 					      	$text .= '<div class="col-lg-2">';
 					        	$text .= '<input id="inputBirthYear" value="'.$row['birthyear'].'" class="form-control numbersOnly" maxlength="4" placeholder="yyyy" type="text">';
 					      	$text .= '</div>';
+					      	$text .= '<label class="col-lg-2 control-label" style="color: gray">Påkrævet</label>';
 					    $text .= '</div>';
 					    $text .= '<div class="form-group">';
 					      	$text .= '<label for="select" class="col-lg-2 control-label">Høne</label>';
@@ -439,7 +443,7 @@ function show_enroll_resident($id, $justcreated = false) {
 function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve = 0, $oneone = 0, $birthDate = "", $birthMonth = "", $birthYear = "", $enroll = false) {
 	$objResponse = new xajaxResponse();
 
-	if(empty($name) || empty($blok) || empty($nr) || empty($birthDate) || empty($birthMonth) || empty($birthYear)) {
+	if(empty($name) || empty($birthDate) || empty($birthMonth) || empty($birthYear)) {
 		$objResponse->script('swal("Ups!", "Du har vidst ikke udfyldt det hele...", "error")');
 	} else {
 		if(checkdate($birthMonth, $birthDate, $birthYear)) {
@@ -447,8 +451,21 @@ function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve 
 			$birthday .= ltrim((string)$birthYear, '0') . '-' . ltrim((string)$birthMonth, '0') . '-' . ltrim((string)$birthDate, '0');
 			$creator = $_SESSION['user']['id'];
 
+			if($oneone && !$hoene) {
+				$blok = "1";
+				$nr = "1";
+				$objResponse->call('xajax_show_alert', 'info', 'Bemærk', 'Adressen blev automatisk sat til 1-1');
+			}
+
+			if(empty($blok)) {
+				$blok = "0";
+			}
+			if(empty($nr)) {
+				$nr = "0";
+			}
+
 			global $dba;
-			$sql = "INSERT INTO residents (name, addr_blok, addr_nr, birthday, hoene, reserve, oneone, creator, createdate) VALUES('".$name."', ".ltrim($blok, '0').", ".ltrim($nr, '0').", '".$birthday."', ".$hoene.", ".$reserve.", ".$oneone.", ".$creator.", NOW())";
+			$sql = "INSERT INTO residents (name, addr_blok, addr_nr, birthday, hoene, reserve, oneone, creator, createdate) VALUES('".$name."', ".$blok.", ".$nr.", '".$birthday."', ".$hoene.", ".$reserve.", ".$oneone.", ".$creator.", NOW())";
 			$stmt = $dba->query($sql);
 
 			if($stmt) {
@@ -464,7 +481,8 @@ function create_resident($name = "", $blok = "", $nr = "", $hoene = 0, $reserve 
 					$objResponse->call('xajax_show_enroll_resident', $row['id'], true);
 				}
 			} else {
-				$objResponse->script('swal("FEJL 1005", "Der skete sku en fejl.. kunne ikke oprette beboeren korrekt :( Kontakt en administrator", "error")');
+				$objResponse->script('swal("Ups!", "'.$sql.'", "error")');
+				//$objResponse->script('swal("FEJL 1005", "Der skete sku en fejl.. kunne ikke oprette beboeren korrekt :( Kontakt en administrator", "error")');
 			}
 		} else {
 			$objResponse->script('swal("Ups!", "Fødselsdagen er ikke gyldig", "error")');
@@ -513,12 +531,27 @@ function delete_resident($id, $ask = 1) {
 function save_resident($id = "", $name = "", $blok = "", $nr = "", $hoene = 0, $reserve = 0, $oneone = 0, $birthDate = "", $birthMonth = "", $birthYear = "") {
 	$objResponse = new xajaxResponse();
 
-	if(empty($name) || empty($blok) || empty($nr) || empty($birthDate) || empty($birthMonth) || empty($birthYear)) {
+	if(empty($name) || empty($birthDate) || empty($birthMonth) || empty($birthYear)) {
 		$objResponse->script('swal("Ups!", "Du har vidst ikke udfyldt det hele...", "error")');
 	} else {
 		if(checkdate($birthMonth, $birthDate, $birthYear)) {
 			$birthday = "";
 			$birthday .= (string)$birthYear . '-' . (string)$birthMonth . '-' . (string)$birthDate;
+
+			if($oneone && !$hoene) {
+				unset($blok);
+				unset($nr);
+				$blok = "1";
+				$nr = "1";
+				$objResponse->call('xajax_show_alert', 'info', 'Bemærk', 'Adressen blev automatisk sat til 1-1');
+			}
+
+			if(empty($blok)) {
+				$blok = "0";
+			}
+			if(empty($nr)) {
+				$nr = "0";
+			}
 
 			global $dba;
 			$sql = "UPDATE residents SET name='".$name."', addr_blok=".$blok.", addr_nr=".$nr.", hoene=".$hoene.", reserve=".$reserve.", oneone=".$oneone.", birthday='".$birthday."' WHERE id=" . $id;

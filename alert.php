@@ -38,7 +38,7 @@ function show_alert($type = "", $title = "", $message = "") {
 		$command .= "message: '".$message."'";
 	}
 
-	$command .= "},{type: '".$color_type."',placement: {from: \"bottom\",align: \"right\"},animate: {enter: 'animated fadeIn',exit: 'animated zoomOutRight'},offset:70,spacing:0,delay:500});";
+	$command .= "},{type: '".$color_type."',placement: {from: \"bottom\",align: \"right\"},animate: {enter: 'animated fadeIn',exit: 'animated zoomOutRight'},offset:70,spacing:0,delay:1500});";
 
 	$objResponse->script($command);
 	return $objResponse;

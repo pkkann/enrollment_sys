@@ -92,6 +92,17 @@
 			function setupInputRestricts() {
 				$('.numbersOnly').autotab('number');
 			}
+			function refresh_session() {
+				var time = 300000;
+				setTimeout(function() {
+					$.ajax({
+			           url: 'refresh_session.php',
+			           cache: false,
+			           complete: function () {refresh_session();}
+			        });
+				},time);
+			}
+			refresh_session();
 		</script>
 	</body>
 </html>
