@@ -30,7 +30,7 @@ function gen_footer() {
 			$text .= '<p class="navbar-text">Gæster indskrevet: '.$guests.'</p>';
 		}
 		$text .= '<div class="navbar-right">';
-			$text .= '<p class="navbar-text"> v1.2 Beta</p>';
+			$text .= '<p class="navbar-text"> v1.3 Beta</p>';
 		$text .= '</div>';
 	$text .= '</div>';
 	
