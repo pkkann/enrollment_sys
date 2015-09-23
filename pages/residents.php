@@ -47,8 +47,8 @@ function gen_resident_search($string) {
 	$stmt = $dba->query($sql);
 	if($stmt) {
 		if($stmt->rowCount() < 1) {
-			//$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND address LIKE '%".$string."%'";
-			$sql = "SELECT * FROM residents_select u WHERE deleted = 0 AND LEVENSHTEIN_RATIO(u.address, '".$string."') > 30";
+			$sql = "SELECT * FROM residents_select WHERE deleted = 0 AND address LIKE '%".$string."%'";
+			//$sql = "SELECT * FROM residents_select u WHERE deleted = 0 AND LEVENSHTEIN_RATIO(u.address, '".$string."') > 30";
 			$stmt = $dba->query($sql);
 			if($stmt) {
 				if($stmt->rowCount() < 1) {
